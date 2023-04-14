@@ -1,0 +1,251 @@
+write comment: /* Fernando Noel Vizcaino Perales
+   [CS1101] Comprehensive Lab 2
+   This work is to be done individually. It is not permitted to. 
+   share, reproduce, or alter any part of this assignment for any 
+   purpose. Students are not permitted from sharing code, uploading 
+   this assignment online in any form, or viewing/receiving/
+   modifying code written from anyone else. This assignment is part. 
+   of an academic course at The University of Texas at El Paso and 
+   a grade will be assigned for the work produced individually by 
+   the student./*
+
+import scanner
+
+create class CL2_VizcainoNoel.java
+	
+	create global integer var pairNumber and assign 1
+	create global integers rows and colums
+
+	create main method
+		create scanner object for user input and call it "scn"
+		
+		create int 2darray board and assign setupBoard method
+		create char 2darray playingBoard and assign new char[board.length][board[0].length]
+		for iterative less than playingBoard.length
+			for iterative less than playingBoard[i].length
+				initialize each element of playingBoard[i][j] to '?'
+		
+		create integer var maxAttempts and assign the value of pairNumber+1
+
+		call method displayMainMenu(maxAttempts)
+		create and store value in menu integer var
+		create boolean notOptionSelected 
+		do
+			create switch that evaluates menu
+				case 1
+					create integer attempt var and assign 1
+					output "Number of attempts left: " and concatenate Integer.toString(maxAttempts-attempt)
+					while(attempt <= maxAttempts OR runGame(playingBoard,board)==0)
+						add 1 to attempt
+						output "Number of attempts left: " and concatenate Integer.toString(maxAttempts-attempt)
+					output Game over
+					notOptionSelected assign false
+					break switch
+				case 2
+					while(NOT isBoardCleared(playingBoard))
+						output "Number of attempts left: " and concatenate Integer.toString(maxAttempts-attempt)
+						call method runGame(playingBoard,board)
+					notOptionSelected assign false
+					output Game over
+					break switch
+				case 3
+					output Game over
+					notOptionSelected assign false
+					break switch
+				default
+					output No valid option selected
+					ask user to enter option again and store it in menu var
+		while (notOptionSelected)
+
+
+
+
+	-create method runGame with parameters char[][] playingBoard, and int[][] board, with an integer return value
+		call displayBoard(playingBoard) method
+		create integer variable called cellRowNumber1, cellColumNumber1
+		do
+			ask user to Enter cell column number	
+			store value in cellColumNumber1
+			ask user to Enter cell row number	
+			store value in cellRowNumber1
+		while(NOT isWithinBounds(board.length,board[0].length,cellRowNumber1,cellColumNumber1) OR isCellSelected(playingBoard,cellRowNumber1,cellColumNumber1))
+		output "You have discovered: " and concatenate board[cellRowNumber1][cellColumNumber1]
+		call clearCell(playingBoard, cellRowNumber1,cellColumNumber1, board[cellRowNumber1][cellColumNumber1]) method
+		output "Where is the matching pair?"
+		call displayBoard(playingBoard) method
+		create integer variable called cellRowNumber2, cellColumNumber2
+		do
+			ask user to Enter cell column number	
+			store value in cellColumNumber2
+			ask user to Enter cell row number	
+			store value in cellRowNumber2
+		while(NOT isWithinBounds(board.length,board[0].length,cellRowNumber2,cellColumNumber2) OR isCellSelected(playingBoard,cellRowNumber2,cellColumNumber2))
+		call clearCell(playingBoard, cellRowNumber2,cellColumNumber2, board[cellRowNumber2][cellColumNumber2]) method
+		call displayBoard(playingBoard) method
+		if(playingBoard[cellRowNumber1][cellColumNumber1] is equal to playingBoard[cellRowNumber2][cellColumNumber2]
+			output You have found a pair!
+			if(isBoardCleared(playingBoard))
+				return 3
+			else return 0
+		else 
+			output "You uncovered: " and concatenate board[cellRowNumber2][cellColumNumber2]
+			playingBoard[cellRowNumber1][cellColumNumber1] = '?'
+			playingBoard[cellRowNumber2][cellColumNumber2] = '?'
+			return 0
+		
+			
+
+
+
+	-create method isWithinBounds with a boolean return value and parameters int boardRowLength, int boardColumnLength, int cellRow, and int cellColumn
+		if(cellRow>=0&&cellRow<boardRowLength) 
+			if(cellColumn>=0&&cellColumn<boardColumnLength) 
+				return true
+			else return false
+		else return false
+
+
+	-create method setupBoard with an integer 2darray as return value and 0 parameters
+		create boardSize var
+		do
+			Ask user "Enter the size of the board (even number): "
+			assign to boardSize var
+		while(boardSize%2==1 OR boardSize<4)
+		getRowColum(boardSize)
+		create 2darray board and assign new int[rows][colums]
+		for iterative less than board.length
+			for iterative less than board[i].length
+				initialize each element of board[i][j] to 0
+		call placePairs(board) method	
+		return board
+
+
+
+	-create method void getRowColum(x)
+		create float var num and assign x
+		create float var square and assign Math.sqrt(num)
+		if(square%Math.floor(square)!=0){
+			crate countnum var and initialize to cero
+			while(num>1)
+				if(num%2==0)
+					countnum++
+					num /=2
+				else if(num%3==0)
+					countnum++
+					num /=3
+				else if(num%4==0)
+					countnum++
+					num /=4
+				else if(num%5==0)
+					countnum++
+					num /=5
+				else 
+					countnum++
+					num /= num
+			create var half and assign (int)Math.ceil(countnum/2.0)
+			create var a=1, b=1, and subcount=0
+			num = x
+			while(subcount<countnum)
+				while(subcount<half){
+					if(num%2==0)
+						subcount++
+						num /=2
+						a *=2
+					else if(num%3==0)
+						subcount++
+						num /=3
+						a *=3
+					else if(num%4==0)
+						subcount++
+						num /=4
+						a *=4
+					else if(num%5==0)
+						subcount++
+						num /=5
+						a *=5
+					else 
+						subcount++
+						num /= num
+						a *=num
+				}
+				
+				if(num%2==0)
+					subcount++
+					num /=2
+					b *=2
+				else if(num%3==0)
+					subcount++
+					num /=3
+					b *=3
+				else if(num%4==0)
+					subcount++
+					num /=4
+					b *=4
+				else if(num%5==0)
+					subcount++
+					num /=5
+					b *=5
+				else 
+					subcount++
+					num /= num
+					b *=num
+			if a>b
+				colums = a
+				rows = b
+			else
+				colums = b
+				rows = a
+		}else 
+			rows = (int)square
+			colums = (int)square
+
+
+
+
+	-create method placePairs without return value, and parameter int[][] arr
+		create integer initializedCells and assign 0
+		create integers counter=1, randNum
+		do
+			randRowNum assign Math.round(arr.length*Math.random())
+			randColumNum assign Math.round(arr[randRowNum].length*Math.random())
+			if(arr[randRowNum][randColumNum] is equal to 0)
+				arr[randRowNum][randColumNum] assign pairNumber
+				add 1 to counter
+				if counter is more than 2
+					assign 1 to counter
+					add 1 to pairNumber 
+				add 1 to initializedCells
+			
+		while(initializedCells<=(arr.length*arr[0].length))
+
+
+	-create method displayMainMenu without return value and parameter int attempts
+		output "Do you wish to play for:\n1.<attempts> attempts\n2.Unlimited number of attempts\n3.Exit game
+
+
+	-create method displayBoard without return value and parameter char[][] board
+		for iteration is less than or equal to board[0].length
+			display iteration value with a space
+		display "--------------------------"
+		for loop that goes through every element of board array
+			output i+"| "
+			for iteration on array board[i].length
+				display cell of board with space
+			output to get to next line
+
+
+
+	-create method isCellSelected with boolean return value and parameters char[][] board, int cellRow, and int cellColum
+		if(board[cellRow][cellColum] is equal to '?')
+			return false
+		else return true
+
+
+	-create method clearCell without return value and parameters char[][] board, int cellRow, int cellColum, and int value
+		board[cellRow][cellColum] assign value (char)var
+
+	-create method isBoardCleared with boolean return value and parameter char[][] board
+		for loop that goes through every element of board array
+			if the cell of board is equal to '?'
+				return false
+		return true	
